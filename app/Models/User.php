@@ -1,16 +1,28 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * Сущность "Авторизованный пользователь"
+ *
+ * @property integer $id
+ * @property string  $name
+ * @property string  $nickname
+ * @property string  $password
+ * @property string  $remember_token
+ * @property Carbon  $created_at
+ * @property Carbon  $updated_at
+ * @property Carbon  $deleted_at
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
+
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +31,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'nickname',
         'password',
     ];
 
@@ -39,7 +51,9 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password'   => 'hashed',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 }
