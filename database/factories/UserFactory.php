@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @method create($attributes = [], ?Model $parent = null)
+ * @method User create($attributes = [], ?Model $parent = null)
  */
 class UserFactory extends Factory
 {
