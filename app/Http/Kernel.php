@@ -2,6 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Admin\Middleware\AdminAuth;
+use App\Http\Admin\Middleware\AdminGuest;
+use App\Http\App\Middleware\AppAuth;
+use App\Http\App\Middleware\AppGuest;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -39,7 +43,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
