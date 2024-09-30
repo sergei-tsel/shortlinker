@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace App\Repositories;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 /**
  * Абстрактный репозиторий
@@ -68,7 +68,7 @@ abstract class AbstractRepository
     {
         $pageLimit = $pageLimit ?: static::PAGE_LIMIT;
 
-        return Model::query()
+        return $this::MODEL::query()
             ->orderByDesc('created_at')
             ->paginate(
                 perPage: $pageLimit,
@@ -76,15 +76,20 @@ abstract class AbstractRepository
             );
     }
 
-    public function searchByQuery(string $query, int $searchLimit = self::SEARCH_LIMIT): Collection
+    public function searchByQuery(
+        string $query,
+        int    $searchLimit = self::SEARCH_LIMIT,
+        int    $page = 1,
+        int    $pageLimit = self::PAGE_LIMIT,
+    ): LengthAwarePaginator
     {
         $query = trim($query);
 
-        if (!$query) {
-            return new Collection();
-        }
+        $builder = $this::MODEL::withTrashed()->limit($searchLimit);
 
-        $builder = Model::query()->limit($searchLimit);
+        if (!$query) {
+            return new LengthAwarePaginator(new Collection(), 0, $pageLimit);
+        }
 
         if (is_numeric($query)) {
             $builder->orWhere(['id' => $query]);
@@ -96,6 +101,13 @@ abstract class AbstractRepository
 
         $builder->orderByDesc('updated_at');
 
-        return $builder->get();
+        $results = $builder->get();
+
+        return new LengthAwarePaginator (
+            items: $results,
+            total: count($results),
+            perPage: $pageLimit,
+            currentPage: $page,
+        );
     }
 }

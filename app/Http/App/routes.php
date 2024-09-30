@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Http\App\Controllers\AuthController;
+use App\Http\App\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login'])
@@ -10,3 +11,15 @@ Route::post('login', [AuthController::class, 'login'])
 Route::post('logout', [AuthController::class, 'logout'])
     ->middleware('auth:admin')
     ->name('logout');
+
+Route::group([
+    'prefix' => 'user',
+    'as'     => 'user.',
+    'middleware' => 'auth:admin',
+], function () {
+    Route::post('{id}/block', [UserController::class, 'block'])
+        ->name('block');
+
+    Route::post('{id}/unblock', [UserController::class, 'unblock'])
+        ->name('unblock');
+});
