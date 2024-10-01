@@ -9,6 +9,7 @@
         <div class="container-fluid">
             <a class="btn btn-primary btn-lg" href="{{ route('admin.welcome') }}">SHORTLINKER</a>
             <a class="btn btn-success btn-lg" href="{{ route('admin.user.all') }}">Пользователи</a>
+            <a class="btn btn-success btn-lg" href="{{ route('admin.link.all') }}">Ссылки</a>
             <form action="{{ route('app.admin.logout') }}" method="post">
                 @csrf
                 <button type="submit" class="btn btn-danger btn-lg">Выйти</button>

@@ -6,6 +6,7 @@ use App\Enums\LinkResourceType;
 use App\Models\Link;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -14,8 +15,8 @@ use Illuminate\Support\Facades\DB;
  * @method Link getOneById(int $id, bool $force = false)
  * @method Link createByParams(array $params)
  * @method Link updateByParams(Model $model, array $params)
- * @method Link getAll(int $page = 1, int $pageLimit = 0)
- * @method Link searchByQuery(string $query, int $searchLimit = self::SEARCH_LIMIT)
+ * @method getAll(int $page = 1, int $pageLimit = 0)
+ * @method searchByQuery(string $query, int    $searchLimit = self::SEARCH_LIMIT, int    $page = 1, int    $pageLimit = self::PAGE_LIMIT)
  */
 class LinkRepository extends AbstractRepository
 {

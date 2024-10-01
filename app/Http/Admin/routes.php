@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Http\Admin\Controllers\LinkController;
 use App\Http\Admin\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,16 @@ Route::group([
     Route::post('search', [UserController::class, 'search'])
         ->name('search');
 });
+
+Route::group([
+    'prefix' => 'link',
+    'as'     => 'link.',
+    'middleware' => 'auth:admin',
+], function () {
+    Route::get('all', [LinkController::class, 'getAll'])
+        ->name('all');
+
+    Route::post('search', [LinkController::class, 'search'])
+        ->name('search');
+});
+
