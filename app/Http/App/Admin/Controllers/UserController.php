@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace App\Http\App\Controllers;
+namespace App\Http\App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;

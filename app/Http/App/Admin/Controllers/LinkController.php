@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace App\Http\App\Controllers;
+namespace App\Http\App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\LinkRepository;
@@ -22,8 +22,8 @@ class LinkController extends Controller
      */
     public function delete(int $id): Response
     {
-        $user = $this->linkRepository->getOneById($id);
-        $this->linkRepository->delete($user);
+        $link = $this->linkRepository->getOneById($id);
+        $this->linkRepository->delete($link);
 
         return response()->json([], Response::HTTP_NO_CONTENT);
     }
@@ -33,8 +33,8 @@ class LinkController extends Controller
      */
     public function restore(int $id): Response
     {
-        $user = $this->linkRepository->getOneById($id, true);
-        $this->linkRepository->restore($user);
+        $link = $this->linkRepository->getOneById($id, true);
+        $this->linkRepository->restore($link);
 
         return response()->json([], Response::HTTP_NO_CONTENT);
     }

@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-namespace App\Http\App\Controllers;
+namespace App\Http\App\Admin\Controllers;
 
-use App\Http\App\Requests\LoginRequest;
+use App\Http\App\Admin\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

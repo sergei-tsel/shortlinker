@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use App\Http\App\Controllers\AuthController;
-use App\Http\App\Controllers\LinkController;
-use App\Http\App\Controllers\UserController;
+use App\Http\App\Admin\Controllers\AuthController;
+use App\Http\App\Admin\Controllers\LinkController;
+use App\Http\App\Admin\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login'])
