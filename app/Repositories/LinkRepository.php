@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Enums\LinkResourceType;
+use App\Helpers\CacheHelper;
 use App\Models\Link;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
  *
  * @method Link getOneById(int $id, bool $force = false)
  * @method Link createByParams(array $params)
- * @method Link updateByParams(Model $model, array $params)
  * @method getAll(int $page = 1, int $pageLimit = 0)
  * @method searchByQuery(string $query, int    $searchLimit = self::SEARCH_LIMIT, int    $page = 1, int    $pageLimit = self::PAGE_LIMIT)
  */
@@ -42,11 +41,15 @@ class LinkRepository extends AbstractRepository
     }
 
     /**
-     *  Получение вместе со ресурсами
+     *  Получение вместе с ресурсами
      */
     public function getOneByIdWithResources(int $id, bool $force = false): Link
     {
-        $link = $this->getOneById($id, $force);
+        if (CacheHelper::has(Link::class, $id)) {
+            $link = CacheHelper::get(Link::class, $id);
+        } else {
+            $link = $this->getOneById($id, $force);
+        }
 
         $resources = $this->findResources($link->resources, $force);
 
@@ -54,6 +57,8 @@ class LinkRepository extends AbstractRepository
         $link->resources = array_map(function ($resource) use ($resources) {
             return $resources->find($resource);
         }, $link->resources);
+
+        CacheHelper::set($link);
 
         return $link;
     }
@@ -78,6 +83,9 @@ class LinkRepository extends AbstractRepository
         return $builder->get();
     }
 
+    /**
+     * Добавление в папку
+     */
     public function addToFolder(Link $link, Link $added): void
     {
         if ($added->resourceType !== LinkResourceType::TO_GROUP) {
@@ -88,6 +96,9 @@ class LinkRepository extends AbstractRepository
         }
     }
 
+    /**
+     * Добавление группы
+     */
     public function addGroup(Link $link, Link $added): void
     {
         if ($link->resourceType !== LinkResourceType::TO_FOLDER) {
@@ -109,11 +120,28 @@ class LinkRepository extends AbstractRepository
             $added->save();
             $link->save();
 
+            CacheHelper::delete(Link::class, $added->id);
+            CacheHelper::delete(Link::class, $link->id);
+
             DB::commit();
         } catch (\Throwable $exception) {
             DB::rollBack();
 
             throw $exception;
         }
+    }
+
+    /**
+     * Изменение
+     */
+    public function updateByParams(Model $model, array $params): Link
+    {
+        /** @var Link $model */
+        CacheHelper::delete(Link::class, $model->id);
+
+        /** @var Link $link */
+        $link = parent::updateByParams($model, $params);
+
+        return $link;
     }
 }
