@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\Http\App\User\Controllers;
 
+use App\Http\App\User\Requests\Link\AddResourceRequest;
 use App\Http\App\User\Requests\Link\CreateRequest;
 use App\Http\App\User\Requests\Link\UpdateRequest;
 use App\Http\Controllers\Controller;
@@ -31,7 +32,7 @@ class LinkController extends Controller
 
         $this->linkRepository->createByParams($params);
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->redirectToRoute('welcome');
     }
 
     /**
@@ -46,7 +47,7 @@ class LinkController extends Controller
         $link = $this->linkRepository->getOneById($id);
         $this->linkRepository->updateByParams($link, $params);
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->redirectToRoute('welcome');
     }
 
     /**
@@ -57,30 +58,41 @@ class LinkController extends Controller
         $link = $this->linkRepository->getOneById($id);
         $this->linkRepository->delete($link);
 
-        return response()->json([], Response::HTTP_NO_CONTENT);
+        return response()->redirectToRoute('welcome');
     }
 
     /**
-     * Добавить в папку
+     * Добавить ресурс
      */
-    public function addToFolder(int $id, int $folderId): Response
+    public function addResource(AddResourceRequest $request, int $id): Response
     {
-        $folder = $this->linkRepository->getOneById($folderId);
-        $link   = $this->linkRepository->getOneById($id);
-        $this->linkRepository->addToFolder($folder, $link);
+        $toLink   = $this->linkRepository->getOneById((int) $request->get('toId'));
+        $this->linkRepository->addResource($toLink, $id);
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->redirectToRoute('welcome');
     }
 
     /**
-     * Добавить группу
+     * Переместить ресурс
      */
-    public function addGroup(int $id, int $groupId): Response
+    public function moveResource(AddResourceRequest $request, int $id, int $fromId): Response
     {
-        $link  = $this->linkRepository->getOneById($id);
-        $group = $this->linkRepository->getOneById($groupId);
-        $this->linkRepository->addGroup($link, $group);
+        $toLink   = $this->linkRepository->getOneById((int) $request->get('toId'));
+        $fromLink = $this->linkRepository->getOneById($fromId);
+        $this->linkRepository->addResource($toLink, $id);
+        $this->linkRepository->removeResource($fromLink, $id);
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->redirectToRoute('welcome');
+    }
+
+    /**
+     * Удалить ресурс
+     */
+    public function removeResource(int $id, int $fromId): Response
+    {
+        $fromLink = $this->linkRepository->getOneById($fromId);
+        $this->linkRepository->removeResource($fromLink, $id);
+
+        return response()->redirectToRoute('welcome');
     }
 }

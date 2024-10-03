@@ -44,9 +44,12 @@ Route::group([
     Route::post('{id}/delete', [LinkController::class, 'delete'])
         ->name('delete');
 
-    Route::post('{id}/addToFolder/{folderId}', [LinkController::class, 'addToFolder'])
-        ->name('addToFolder');
+    Route::post('{id}/add', [LinkController::class, 'addResource'])
+        ->name('addResource');
 
-    Route::post('{id}/addGroup/{groupId}', [LinkController::class, 'addGroup'])
-        ->name('addGroup');
+    Route::post('{id}/moveFrom/{fromId}', [LinkController::class, 'moveResource'])
+        ->name('moveResource');
+
+    Route::post('{id}/removeFrom/{fromId}', [LinkController::class, 'removeResource'])
+        ->name('removeResource');
 });

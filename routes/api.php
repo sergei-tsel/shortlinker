@@ -1,6 +1,6 @@
 <?php
-
-use Illuminate\Http\Request;
+declare(strict_types=1);
+use App\Http\Controllers\ExternalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/away/{shortUrl}', [ExternalController::class, 'getAway'])
+    ->name('away');
+
+Route::get('/aways/{shortUrl}', [ExternalController::class, 'getManyUrlsToAway'])
+    ->name('aways');

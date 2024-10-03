@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\LinkResourceType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer          $id
  * @property integer          $userId
  * @property LinkResourceType $resourceType
- * @property array|null       $resources
+ * @property Collection|null  $resources
  * @property string           $shortUrl
  * @property string           $longUrl
  * @property Carbon           $created_at
@@ -31,7 +33,7 @@ class Link extends Model
     protected $table = 'links';
 
     protected $casts = [
-        'resources'  => 'array',
+        'resources'  => asCollection::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -42,9 +44,9 @@ class Link extends Model
         return LinkResourceType::from($value);
     }
 
-    public function setResourceTypeAttribute(LinkResourceType $resourceType): void
+    public function setResourceTypeAttribute(LinkResourceType|int $resourceType): void
     {
-        $this->attributes['resourceType'] = $resourceType->value;
+        $this->attributes['resourceType'] = $resourceType instanceof LinkResourceType ? $resourceType->value : $resourceType;
     }
 
     public function scopeOfResourceType(Builder $builder, LinkResourceType $resourceType): Builder

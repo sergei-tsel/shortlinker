@@ -4,13 +4,12 @@ namespace App\Http\App\User\Requests\Link;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class AddResourceRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'shortUrl' => 'required|string|max:16',
-            'longUrl'  => 'required|string|url|max:4096',
+            'toId' => 'required|integer',
         ];
     }
 }
