@@ -29,7 +29,7 @@ class UserController extends Controller
         $user = $this->userRepository->getOneById($id);
         $this->userRepository->updateByParams($user, $params);
 
-        return response()->json([], Response::HTTP_NO_CONTENT);
+        return response()->redirectToRoute('welcome');
     }
 
     /**
@@ -37,11 +37,9 @@ class UserController extends Controller
      */
     public function changePassword(ChangePasswordRequest $request, int $id): Response
     {
-        $params = $request->validated();
-
         $user = $this->userRepository->getOneById($id);
-        $this->userRepository->changePassword($user, $params);
+        $this->userRepository->changePassword($user, $request->get('newpassword'));
 
-        return response()->json([], Response::HTTP_NO_CONTENT);
+        return response()->redirectToRoute('welcome');
     }
 }

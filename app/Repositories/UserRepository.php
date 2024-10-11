@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
  *
  * @method User getOneById(int $id, bool $force = false)
  * @method User updateByParams(Model $model, array $params)
+ * @method delete(Model|int $entity)
+ * @method restore(Model|int $entity)
  * @method getAll(int $page = 1, int $pageLimit = 0)
  * @method searchByQuery(string $query, int $searchLimit = self::SEARCH_LIMIT, int $page = 1, int $pageLimit = self::PAGE_LIMIT)
  */

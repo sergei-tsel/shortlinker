@@ -11,8 +11,8 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'shortLink'    => 'required|string|max:16',
-            'longLink'     => 'required|string|max:4096',
+            'shortUrl'     => 'required|string|max:16',
+            'longUrl'      => 'required|string|url|max:4096',
             'resourceType' => [
                 'required',
                 'int',

@@ -16,19 +16,13 @@ Route::post('logout', [AuthController::class, 'logout'])
     ->middleware('auth:web')
     ->name('logout');
 
-Route::group([
-    'prefix' => 'user',
-    'as'     => 'user.',
-    'middleware' => 'auth:web',
-], function () {
-    Route::post('{id}/update', [UserController::class, 'update'])
-        ->middleware('auth:web')
-        ->name('update');
+Route::post('{id}/update', [UserController::class, 'update'])
+    ->middleware('auth:web')
+    ->name('update');
 
-    Route::post('{id}/changePassword', [UserController::class, 'changePassword'])
-        ->middleware('auth:web')
-        ->name('changePassword');
-});
+Route::post('{id}/changePassword', [UserController::class, 'changePassword'])
+    ->middleware('auth:web')
+    ->name('changePassword');
 
 Route::group([
     'prefix' => 'link',

@@ -55,12 +55,12 @@ abstract class AbstractRepository
         }
     }
 
-    public function restore(Model|int $model): void
+    public function restore(Model|int $entity): void
     {
-        if ($model instanceof Model) {
-            $model->restore();
+        if ($entity instanceof Model) {
+            $entity->restore();
         } else {
-            ($this::MODEL)->query()->where(['id' => $model])->restore();
+            ($this::MODEL)->query()->where(['id' => $entity])->restore();
         }
     }
 

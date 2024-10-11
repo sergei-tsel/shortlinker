@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace App\Http\App\User\Controllers;
 
 use App\Http\App\User\Requests\User\LoginRequest;
+use App\Http\App\User\Requests\User\RegisterRequest;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
@@ -17,7 +18,7 @@ class AuthController extends Controller
     /**
      * Регистрация пользователя
      */
-    public function register(LoginRequest $request): RedirectResponse
+    public function register(RegisterRequest $request): RedirectResponse
     {
         $params = $request->validated();
 
@@ -31,10 +32,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, isset($params['remember'])))
         {
-            $request->session()->regenerate();
+             $request->session()->regenerate();
         };
 
-        return response()->redirectToRoute('user.welcome');
+        return response()->redirectToRoute('welcome');
     }
 
     /**
@@ -45,7 +46,6 @@ class AuthController extends Controller
         $params = $request->validated();
 
         $credentials = [
-            'name'     => $params['name'],
             'nickname' => $params['nickname'],
             'password' => $params['password'],
         ];
@@ -55,7 +55,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
         };
 
-        return response()->redirectToRoute('user.welcome');
+        return response()->redirectToRoute('welcome');
     }
 
     /**
@@ -65,6 +65,6 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return response()->redirectToRoute('user.login');
+        return response()->redirectToRoute('login');
     }
 }

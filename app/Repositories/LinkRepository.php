@@ -181,4 +181,18 @@ class LinkRepository extends AbstractRepository
 
         return $link;
     }
+
+    /**
+     * Удаление
+     */
+    public function delete(Model|int $entity): void
+    {
+        if ($entity instanceof Link) {
+            CacheHelper::delete(Link::class, $entity->id);
+        } else {
+            CacheHelper::delete(Link::class, $entity);
+        }
+
+        parent::delete($entity);
+    }
 }
