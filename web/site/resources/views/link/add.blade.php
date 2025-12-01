@@ -1,9 +1,9 @@
 <form
         class="m-5"
         @if(empty($fromId))
-            action="{{ route('user.link.addResource', ['id' => $link->id]) }}"
+            action="{{ route('api.user.link.addResource', ['id' => $link->id]) }}"
         @else
-            action="{{ route('user.link.moveResource', ['id' => $link->id, 'fromId' => $fromId]) }}"
+            action="{{ route('api.user.link.moveResource', ['id' => $link->id, 'fromId' => $fromId]) }}"
         @endif
         method="post"
 >

@@ -28,14 +28,14 @@
                 <td>{{ $model->updated_at }}</td>
                 @if($model->deleted_at === null)
                     <td>
-                        <form action="{{ route('admin.link.delete', [$model->id]) }}" method="post">
+                        <form action="{{ route('api.admin.link.delete', [$model->id]) }}" method="post">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-lg">Удалить</button>
                         </form>
                     </td>
                 @else
                     <td>
-                        <form action="{{ route('admin.link.restore', [$model->id]) }}" method="post">
+                        <form action="{{ route('api.admin.link.restore', [$model->id]) }}" method="post">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-lg">Восстановить</button>
                         </form>

@@ -32,7 +32,7 @@
     @if($link->resourceType === \App\Enums\LinkResourceType::TO_GROUP)
         <a
                 class="btn btn-primary m-5"
-                href="{{ route('aways', ['shortUrl' => $link->shortUrl]) }}"
+                href="{{ route('api.aways', ['shortUrl' => $link->shortUrl]) }}"
                 onclick="away()"
         >Открыть все</a>
         @if(isset($urls))

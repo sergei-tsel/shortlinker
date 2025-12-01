@@ -7,7 +7,7 @@
 @section('content')
     <form
         class="m-5"
-        action="{{ route('user.link.update', ['id' => $link->id]) }}"
+        action="{{ route('api.user.link.update', ['id' => $link->id]) }}"
         method="post"
     >
         @csrf

@@ -2,7 +2,7 @@
     <th>
         <a
                 class="btn btn-success"
-                href="{{ route('away', ['shortUrl' => $resource->shortUrl]) }}"
+                href="{{ route('api.away', ['shortUrl' => $resource->shortUrl]) }}"
                 target="__blank"
         >{{ $resource->shortUrl }}</a>
     </th>
@@ -27,7 +27,7 @@
     <td>
         @if(isset($fromLink))
             <form
-                    action="{{ route('user.link.removeResource', ['id' => $resource->id, 'fromId' => $fromLink->id]) }}"
+                    action="{{ route('api.user.link.removeResource', ['id' => $resource->id, 'fromId' => $fromLink->id]) }}"
                     method="post"
             >
                 @csrf
@@ -46,7 +46,7 @@
     </td>
     <td>
         <form
-                action="{{ route('user.link.delete', ['id' => $resource->id]) }}"
+                action="{{ route('api.user.link.delete', ['id' => $resource->id]) }}"
                 method="post"
         >
             @csrf

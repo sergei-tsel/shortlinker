@@ -28,14 +28,14 @@
                 <td>{{ $model->updated_at }}</td>
                 @if($model->deleted_at === null)
                     <td>
-                        <form action="{{ route('admin.user.block', [$model->id]) }}" method="post">
+                        <form action="{{ route('api.admin.user.block', [$model->id]) }}" method="post">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-lg">Заблокировать</button>
                         </form>
                     </td>
                 @else
                     <td>
-                        <form action="{{ route('admin.user.unblock', [$model->id]) }}" method="post">
+                        <form action="{{ route('api.admin.user.unblock', [$model->id]) }}" method="post">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-lg">Разблокировать</button>
                         </form>

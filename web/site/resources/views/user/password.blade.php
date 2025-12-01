@@ -10,7 +10,7 @@
 
         <form
             class="m-5"
-            action="{{ route('user.changePassword', ['id' => $user->id]) }}"
+            action="{{ route('api.user.changePassword', ['id' => $user->id]) }}"
             method="post"
         >
             @csrf

@@ -50,41 +50,36 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => 'user',
-    'as'     => 'user.',
-    'middleware' => 'auth:web',
+    'prefix'     => 'user',
+    'as'         => 'user.',
+    'middleware' => Authenticate::class . ':web',
 ], function () {
     Route::get('{id}/update', [UserController::class, 'update'])
-        ->middleware(Authenticate::class . ':web')
         ->name('update');
 
     Route::get('{id}/changePassword', [UserController::class, 'changePassword'])
-        ->middleware(Authenticate::class . ':web')
         ->name('changePassword');
 });
 
 Route::group([
-    'prefix' => 'link',
-    'as'     => 'link.',
+    'prefix'     => 'link',
+    'as'         => 'link.',
     'middleware' => Authenticate::class . ':web',
 ], function () {
     Route::get('create', function () {
         return view('link.create');
-    })->middleware(Authenticate::class . ':web')
-        ->name('create');
+    })->name('create');
 
     Route::get('{id}/resources', [LinkController::class, 'resources'])
-        ->middleware(Authenticate::class . ':web')
         ->name('resources');
 
     Route::get('{id}/update', [LinkController::class, 'update'])
-        ->middleware(Authenticate::class . ':web')
         ->name('update');
 });
 
 Route::group([
     'prefix' => 'admin',
-    'as' => 'admin.',
+    'as'     => 'admin.',
 ], function () {
     Route::get('/', function () {
         return view('admin.login');

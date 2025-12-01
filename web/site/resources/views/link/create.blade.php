@@ -7,7 +7,7 @@
 @section('content')
     <form
             class="m-5"
-            action="{{ route('user.link.create') }}"
+            action="{{ route('api.user.link.create') }}"
             method="post"
     >
         @csrf

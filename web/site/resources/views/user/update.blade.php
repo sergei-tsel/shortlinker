@@ -10,7 +10,7 @@
 
         <form
             class="m-5"
-            action="{{ route('user.update', ['id' => $user->id]) }}"
+            action="{{ route('api.user.update', ['id' => $user->id]) }}"
             method="post"
         >
             @csrf

@@ -21,14 +21,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/away/{shortUrl}', [ExternalController::class, 'getAway'])
-    ->name('away');
+    ->name('api.away');
 
 Route::get('/aways/{shortUrl}', [ExternalController::class, 'getManyUrlsToAway'])
-    ->name('aways');
+    ->name('api.aways');
 
 Route::group([
     'prefix' => 'admin',
-    'as' => 'admin.',
+    'as'     => 'api.admin.',
 ], function () {
     Route::group([
         'prefix' => 'user',
@@ -43,8 +43,8 @@ Route::group([
     });
 
     Route::group([
-        'prefix' => 'link',
-        'as'     => 'link.',
+        'prefix'     => 'link',
+        'as'         => 'link.',
         'middleware' => Authenticate::class . ':admin',
     ], function () {
         Route::post('{id}/delete', [AdminLinkController::class, 'delete'])
@@ -57,7 +57,7 @@ Route::group([
 
 Route::group([
     'prefix' => 'user',
-    'as' => 'user.',
+    'as'     => 'api.user.',
 ], function () {
     Route::post('{id}/update', [UserController::class, 'update'])
         ->middleware(Authenticate::class . ':web')
