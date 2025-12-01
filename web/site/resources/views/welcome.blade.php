@@ -27,11 +27,6 @@
     <div class="column align-items-center">
         <h2 class="text-center mt-3">Ссылки</h2>
         <table class="table m-5">
-            <thead>
-            <tr>
-                <th scope="col">Ссылка</th>
-            </tr>
-            </thead>
             <tbody>
             @foreach($urls as $url)
                 @include('link.actions', ['resource' => $url])
@@ -41,11 +36,6 @@
 
         <h2 class="text-center mt-3">Папки</h2>
         <table class="table m-5">
-            <thead>
-            <tr>
-                <th scope="col">Ссылка</th>
-            </tr>
-            </thead>
             <tbody>
             @foreach($folders as $folder)
                 @include('link.actions', ['resource' => $folder])
@@ -55,11 +45,6 @@
 
         <h2 class="text-center mt-3">Группы</h2>
         <table class="table m-5">
-            <thead>
-            <tr>
-                <th scope="col">Ссылка</th>
-            </tr>
-            </thead>
             <tbody>
             @foreach($groups as $group)
                 @include('link.actions', ['resource' => $group])
