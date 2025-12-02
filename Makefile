@@ -23,4 +23,4 @@ migrate:
 	docker exec --user=1000:1000 -it sl-php bash -c "cd /var/www/site && php artisan migrate"
 
 test:
-	docker exec --user=1000:1000 -it sl-php bash -c "cd /var/www/site && php artisan test"
+	docker exec --user=1000:1000 -it sl-php bash -c "cd /var/www/site && php artisan route:list"

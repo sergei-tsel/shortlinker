@@ -11,7 +11,6 @@ class LoginRequest extends FormRequest
         return [
             'nickname' => 'required|string',
             'password' => 'required|string|min:6',
-            'remember' => 'sometimes|string',
         ];
     }
 }

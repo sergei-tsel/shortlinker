@@ -6,11 +6,12 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\AbstractRepository;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Репозиторий сущности  "Авторизированный пользователь" @see User
  *
- * @method User getOneById(int $id, bool $force = false)
+ * @method User findById(int $id, bool $force = false)
  * @method User updateByParams(Model $model, array $params)
  * @method delete(Model|int $entity)
  * @method restore(Model|int $entity)
@@ -24,6 +25,22 @@ class UserRepository extends AbstractRepository
     protected const FULL_TEXT_SEARCHABLE_FIELDS = [
         'nickname',
     ];
+
+    public function findByNickname(string $nickname, bool $force = false): ?Model {
+        $queryBuilder = $force
+            ? User::withTrashed()
+            : User::query();
+
+        $user = $queryBuilder->where('nickname', $nickname)->first();
+
+        if (!$user) {
+            Log::info('Попытка войти в несуществующий аккаунт', [
+                'nickname' => $nickname,
+            ]);
+        }
+
+        return $user;
+    }
 
     /**
      * Создание

@@ -26,7 +26,7 @@ class UserController extends Controller
     {
         $params = $request->validated();
 
-        $user = $this->userRepository->getOneById($id);
+        $user = $this->userRepository->findById($id);
         $this->userRepository->updateByParams($user, $params);
 
         return response()->redirectToRoute('welcome');
@@ -37,7 +37,7 @@ class UserController extends Controller
      */
     public function changePassword(ChangePasswordRequest $request, int $id): Response
     {
-        $user = $this->userRepository->getOneById($id);
+        $user = $this->userRepository->findById($id);
         $this->userRepository->changePassword($user, $request->get('newpassword'));
 
         return response()->redirectToRoute('welcome');

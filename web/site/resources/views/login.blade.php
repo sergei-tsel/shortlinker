@@ -10,7 +10,7 @@
 
         <form
             class="m-5"
-            action="{{ route('auth.login') }}"
+            action="{{ route('api.user.login') }}"
             method="post"
         >
             <script type="module">
@@ -45,20 +45,6 @@
                     >
                 </div>
             </div>
-            <div class="form-check form-switch">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    name="remember"
-                    role="switch"
-                    id="inputRemember1"
-                >
-                <label
-                    class="form-check-label"
-                    for="inputRemember1"
-                >Запомнить меня</label>
-            </div>
-            <br>
             <button
                 type="submit"
                 class="btn btn-primary"
@@ -67,6 +53,6 @@
         <a
             class="btn btn-outline-success btn-lg d-flex justify-content-center m-5"
             href="{{ route('register') }}"
-        >Зарегестрироваться</a>
+        >Зарегистрироваться</a>
     </div>
 @endsection

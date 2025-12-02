@@ -36,11 +36,11 @@ class LinkController extends Controller
     public function update(Request $request, int $id): View
     {
         /** @var User $user */
-        $user = Auth::user();
+        $user = $this->getAuthenticatedUser();
 
         $fromId = (int) $request->get('fromId') ?? null;
 
-        $link = $this->linkRepository->getOneById($id);
+        $link = $this->linkRepository->findById($id);
 
         if ($link->resourceType === LinkResourceType::TO_URL || $link->resourceType === LinkResourceType::TO_FOLDER) {
             $folders = $this->linkRepository->getAvailableToAddByUser($user, LinkResourceType::TO_FOLDER, $link, $fromId);

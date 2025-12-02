@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\LinkController as AdminLinkController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\AuthController as AdminAuthController;
-use App\Http\Controllers\Admin\LinkController as AdminLinkController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Middlewares\Authenticate;
+use App\Http\Middlewares\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,35 +23,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('login');
-})->name('login');
+})->middleware(RedirectIfAuthenticated::class, 'web')
+    ->name('login');
 
 Route::get('register', function () {
     return view('register');
 })->name('register');
 
 Route::get('welcome', [PageController::class, 'welcome'])
-    ->middleware(Authenticate::class . ':web')
+    ->middleware(Authenticate::class)
     ->name('welcome');
-
-Route::group([
-    'prefix' => 'auth',
-    'as'     => 'auth.',
-], function () {
-    Route::post('register', [AuthController::class, 'register'])
-        ->name('register');
-
-    Route::post('login', [AuthController::class, 'login'])
-        ->name('login');
-
-    Route::post('logout', [AuthController::class, 'logout'])
-        ->middleware(Authenticate::class . ':web')
-        ->name('logout');
-});
 
 Route::group([
     'prefix'     => 'user',
     'as'         => 'user.',
-    'middleware' => Authenticate::class . ':web',
+    'middleware' => Authenticate::class,
 ], function () {
     Route::get('{id}/update', [UserController::class, 'update'])
         ->name('update');
@@ -64,7 +49,7 @@ Route::group([
 Route::group([
     'prefix'     => 'link',
     'as'         => 'link.',
-    'middleware' => Authenticate::class . ':web',
+    'middleware' => Authenticate::class,
 ], function () {
     Route::get('create', function () {
         return view('link.create');
@@ -89,18 +74,6 @@ Route::group([
         return view('admin.welcome');
     })->middleware(Authenticate::class . ':admin')
         ->name('welcome');
-
-    Route::group([
-        'prefix' => 'auth',
-        'as'     => 'auth.',
-    ], function () {
-        Route::post('login', [AdminAuthController::class, 'login'])
-            ->name('login');
-
-        Route::post('logout', [AdminAuthController::class, 'logout'])
-            ->middleware(Authenticate::class . ':admin')
-            ->name('logout');
-    });
 
     Route::group([
         'prefix' => 'user',

@@ -10,7 +10,7 @@
 
         <form
             class="m-5"
-            action="{{ route('auth.register') }}"
+            action="{{ route('api.user.register') }}"
             method="post"
         >
             <script type="module">

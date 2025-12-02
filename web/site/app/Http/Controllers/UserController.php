@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function update(int $id): View
     {
-        $user = $this->userRepository->getOneById($id);
+        $user = $this->userRepository->findById($id);
 
         return view('user.update', compact('user'));
     }
@@ -31,7 +31,7 @@ class UserController extends Controller
      */
     public function changePassword(int $id): View
     {
-        $user = $this->userRepository->getOneById($id);
+        $user = $this->userRepository->findById($id);
 
         return view('user.password', compact('user'));
     }

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Repositories\AbstractRepository;
 
 /**
- * Репозитоий сущности "Добавленная ссылка" @see Link
+ * Репозиторий сущности "Добавленная ссылка" @see Link
  *
  * @method Link createByParams(array $params)
  * @method restore(Model|int $entity)
@@ -28,7 +28,7 @@ class LinkRepository extends AbstractRepository
         'shortUrl',
     ];
 
-    public function getOneById(int $id, bool $force = false): Link
+    public function findById(int $id, bool $force = false): Link
     {
         if (CacheHelper::has(Link::class, $id)) {
             /** @var Link $link */
@@ -37,7 +37,7 @@ class LinkRepository extends AbstractRepository
             return $link;
         }  else {
             /** @var Link $link */
-            $link = parent::getOneById($id, $force);
+            $link = parent::findById($id, $force);
 
             CacheHelper::set($link);
 
@@ -123,12 +123,12 @@ class LinkRepository extends AbstractRepository
     public function getOneWithResources(Link|int $entity): Link
     {
         if (!$entity instanceof Link) {
-            $entity = $this->getOneById($entity);
+            $entity = $this->findById($entity);
         }
 
         if ($entity->resources !== null) {
             $entity->resources = $entity->resources->map(function (int $id) {
-                return $this->getOneById($id);
+                return $this->findById($id);
             });
         }
 

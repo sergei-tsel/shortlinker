@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function block(int $id): Response
     {
-        $user = $this->userRepository->getOneById($id);
+        $user = $this->userRepository->findById($id);
         $this->userRepository->delete($user);
 
         return response()->json([], Response::HTTP_NO_CONTENT);
@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function unblock(int $id): Response
     {
-        $user = $this->userRepository->getOneById($id, true);
+        $user = $this->userRepository->findById($id, true);
         $this->userRepository->restore($user);
 
         return response()->json([], Response::HTTP_NO_CONTENT);

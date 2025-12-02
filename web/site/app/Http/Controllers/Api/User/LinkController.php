@@ -28,7 +28,7 @@ class LinkController extends Controller
     {
         $params = $request->validated();
 
-        $params['userId'] = Auth::id();
+        $params['userId'] = $this->getAuthenticatedUserId();
 
         $this->linkRepository->createByParams($params);
 
@@ -42,9 +42,9 @@ class LinkController extends Controller
     {
         $params = $request->validated();
 
-        $params['userId'] = Auth::id();
+        $params['userId'] = $this->getAuthenticatedUserId();
 
-        $link = $this->linkRepository->getOneById($id);
+        $link = $this->linkRepository->findById($id);
         $this->linkRepository->updateByParams($link, $params);
 
         return response()->redirectToRoute('welcome');
@@ -55,7 +55,7 @@ class LinkController extends Controller
      */
     public function delete(int $id): Response
     {
-        $link = $this->linkRepository->getOneById($id);
+        $link = $this->linkRepository->findById($id);
         $this->linkRepository->delete($link);
 
         return response()->redirectToRoute('welcome');
@@ -66,7 +66,7 @@ class LinkController extends Controller
      */
     public function addResource(AddResourceRequest $request, int $id): Response
     {
-        $toLink   = $this->linkRepository->getOneById((int) $request->get('toId'));
+        $toLink   = $this->linkRepository->findById((int) $request->get('toId'));
         $this->linkRepository->addResource($toLink, $id);
 
         return response()->redirectToRoute('welcome');
@@ -77,8 +77,8 @@ class LinkController extends Controller
      */
     public function moveResource(AddResourceRequest $request, int $id, int $fromId): Response
     {
-        $toLink   = $this->linkRepository->getOneById((int) $request->get('toId'));
-        $fromLink = $this->linkRepository->getOneById($fromId);
+        $toLink   = $this->linkRepository->findById((int) $request->get('toId'));
+        $fromLink = $this->linkRepository->findById($fromId);
         $this->linkRepository->addResource($toLink, $id);
         $this->linkRepository->removeResource($fromLink, $id);
 
@@ -90,7 +90,7 @@ class LinkController extends Controller
      */
     public function removeResource(int $id, int $fromId): Response
     {
-        $fromLink = $this->linkRepository->getOneById($fromId);
+        $fromLink = $this->linkRepository->findById($fromId);
         $this->linkRepository->removeResource($fromLink, $id);
 
         return response()->redirectToRoute('welcome');

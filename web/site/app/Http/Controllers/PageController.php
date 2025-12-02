@@ -20,7 +20,7 @@ class PageController extends Controller
     public function welcome(Request $request): View
     {
         /** @var User $user */
-        $user = Auth::user();
+        $user = $this->getAuthenticatedUser();
 
         $urls    = (new LinkRepository())->getByUser($user, LinkResourceType::TO_URL);
         $folders = (new LinkRepository())->getByUser($user, LinkResourceType::TO_FOLDER);

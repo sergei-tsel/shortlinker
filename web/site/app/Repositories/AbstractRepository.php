@@ -19,7 +19,7 @@ abstract class AbstractRepository
 
     protected const FULL_TEXT_SEARCHABLE_FIELDS = [];
 
-    public function getOneById(int $id, bool $force = false): Model
+    public function findById(int $id, bool $force = false): Model
     {
         $builder = ($force)
             ? $this::MODEL::withTrashed()

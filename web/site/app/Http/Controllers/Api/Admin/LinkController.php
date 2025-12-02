@@ -22,7 +22,7 @@ class LinkController extends Controller
      */
     public function delete(int $id): Response
     {
-        $link = $this->linkRepository->getOneById($id);
+        $link = $this->linkRepository->findById($id);
         $this->linkRepository->delete($link);
 
         return response()->json([], Response::HTTP_NO_CONTENT);
@@ -33,7 +33,7 @@ class LinkController extends Controller
      */
     public function restore(int $id): Response
     {
-        $link = $this->linkRepository->getOneById($id, true);
+        $link = $this->linkRepository->findById($id, true);
         $this->linkRepository->restore($link);
 
         return response()->json([], Response::HTTP_NO_CONTENT);

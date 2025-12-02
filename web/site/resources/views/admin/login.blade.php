@@ -8,7 +8,7 @@
     <div class="column align-items-center">
         <h1 class="text-center mt-5">Добро пожаловать!</h1>
 
-        <form class="m-5" action="{{ route('admin.auth.login') }}" method="post">
+        <form class="m-5" action="{{ route('api.admin.login') }}" method="post">
             <script type="module">
                 window.axios.get('/sanctum/csrf-cookie');
             </script>

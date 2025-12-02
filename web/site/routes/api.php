@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
 
+use App\Http\Controllers\Api\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Api\Admin\LinkController as AdminLinkController;
 use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\User\LinkController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\ExternalController;
@@ -30,6 +32,13 @@ Route::group([
     'prefix' => 'admin',
     'as'     => 'api.admin.',
 ], function () {
+    Route::post('login', [AdminAuthController::class, 'login'])
+        ->name('login');
+
+    Route::post('logout', [AdminAuthController::class, 'logout'])
+        ->middleware(Authenticate::class . ':admin')
+        ->name('logout');
+
     Route::group([
         'prefix' => 'user',
         'as'     => 'user.',
@@ -59,18 +68,28 @@ Route::group([
     'prefix' => 'user',
     'as'     => 'api.user.',
 ], function () {
+    Route::post('register', [AuthController::class, 'register'])
+        ->name('register');
+
+    Route::post('login', [AuthController::class, 'login'])
+        ->name('login');
+
+    Route::post('logout', [AuthController::class, 'logout'])
+        ->middleware(Authenticate::class)
+        ->name('logout');
+
     Route::post('{id}/update', [UserController::class, 'update'])
-        ->middleware(Authenticate::class . ':web')
+        ->middleware(Authenticate::class)
         ->name('update');
 
     Route::post('{id}/changePassword', [UserController::class, 'changePassword'])
-        ->middleware(Authenticate::class . ':web')
+        ->middleware(Authenticate::class)
         ->name('changePassword');
 
     Route::group([
         'prefix' => 'link',
         'as'     => 'link.',
-        'middleware' => Authenticate::class . ':web',
+        'middleware' => Authenticate::class,
     ], function () {
         Route::post('create', [LinkController::class, 'create'])
             ->name('create');

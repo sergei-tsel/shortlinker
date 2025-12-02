@@ -12,7 +12,7 @@
                 href="{{ route('welcome') }}"
             >SHORTLINKER</a>
             <form
-                action="{{ route('auth.logout') }}"
+                action="{{ route('api.user.logout') }}"
                 method="post"
             >
                 @csrf
