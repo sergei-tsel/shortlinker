@@ -30,6 +30,7 @@ services:
       DB_DATABASE: laravel
       DB_USERNAME: laravel
       DB_PASSWORD: secret
+      REDIS_HOST: redis
 
   mariadb:
     image: mariadb:12.1.2
